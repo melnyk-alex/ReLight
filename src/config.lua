@@ -1,12 +1,13 @@
-local module = {}
+local module = {
+    configfile = 'config.json',
+    maximum = 1024
+}
 
 function module.load(app)
-    if file.exists(app.cfgfile) then
-        if file.open(app.cfgfile, 'r') then
-            local status, data = pcall(cjson.decode, file.read(1024))
+    if file.exists(module.configfile) then
+        if file.open(module.configfile, 'r') then
+            local status, data = pcall(cjson.decode, file.read(module.maximum))
             file.close()
-
-            print('statsuusus', status)
 
             if status then
                 app.config = data
@@ -20,6 +21,18 @@ function module.load(app)
         end
     else
         print('CONFIG', 'NOT FOUND')
+    end
+end
+
+function module.save(app, data)
+    if file.open(module.configfile, 'w') then
+        local status, error = pcall(cjson.encode, data)
+
+        if status then
+            app.config = data
+        else
+            print('CONFIG', 'SAVE', 'ERORR', error)
+        end
     end
 end
 
