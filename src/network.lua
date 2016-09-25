@@ -8,8 +8,9 @@ function module.run(app)
     wifi.setphymode(wifi.PHYMODE_G)
     wifi.sta.eventMonReg(wifi.STA_GOTIP, function()
         ip = wifi.sta.getip()
-        print('CONNECTED', ip)
+        print('CONNECTED IP:', ip)
     end)
+    wifi.sta.eventMonStart()
     wifi.sta.config(module.config.ssid, module.config.pasw)
 end
 
