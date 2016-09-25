@@ -2,28 +2,19 @@
 -- Start REST API
 -- WebUI with JS REST
 
-local app = {}
+local app = {
+    cfgfile = 'config.json'
+}
+app.config = {}
+app.config.modules = {}
 app.modules = {}
 
-function loadconfig()
-    if file.exists("config.config") then
-        print("Config file exists")
-    end
-end
+-- LOAD CONFIG
+dofile('config.lua').load(app)
 
-loadconfig()
+-- LOAD MODULES
+dofile('modules.lua').load(app)
 
-for k, v in pairs({}) do
-    local status, module = pcall(dofile, v .. '.lua')
+print('SYSTEM', 'STARTED')
 
-    if status then
-        print('LOAD MODULE', v, 'LOADED')
-
-        status, err = pcall(module.run, v .. '.lua')
-    else
-        print('LOAD MODULE', v, 'FAILED')
-    end
-
-    status = nil
-    module = nil
-end
+return app
