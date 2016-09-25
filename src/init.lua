@@ -2,15 +2,14 @@
 -- Start REST API
 -- WebUI with JS REST
 
-local app = {
-    cfgfile = 'config.json'
-}
+local app = {}
 app.config = {}
 app.config.modules = {}
 app.modules = {}
 
 -- LOAD CONFIG
-dofile('config.lua').load(app)
+app.cfg = dofile('config.lua')
+app.cfg.load(app)
 
 -- LOAD MODULES
 dofile('modules.lua').load(app)
